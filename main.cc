@@ -1,5 +1,3 @@
-// File name: main.cc
-// Compile: g++ main.cc -lSDL2
 #include <bits/stdc++.h>
 #include <SDL2/SDL.h>
 using namespace std;

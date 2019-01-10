@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 #include <SDL2/SDL.h>
+// #include <SDL2/SDL2_gfxPrimitves.h> after sudo apt-get install libsdl2-gfx-dev
+// circleRGBA(renderer, ix, iy, r, re, gr, bl, al) instead of using 'eclipse' func at line 25
 using namespace std;
 
 #define PI     3.14
@@ -7,8 +9,8 @@ using namespace std;
 #define HEIGHT 600
 #define CENTER SDL_WINDOWPOS_CENTERED
 
-SDL_Window* window = NULL;
-SDL_Renderer* renderer = NULL;
+SDL_Window   * window   = NULL;
+SDL_Renderer * renderer = NULL;
 SDL_Event event;
 
 bool isrunning = true;
@@ -22,10 +24,11 @@ void quit() {
 
 void eclipse(int ix, int iy, int r) {
 	vector<SDL_Point> circle_point;
-	for (double radian = 0; radian < 2 * PI; radian += 0.001) {
+	for (double radian = 0; radian < 2 * PI; radian += 0.01) {
+		// Trigonometric formula and translate
 		int cx = ix + r * cos(radian);
 		int cy = iy + r * sin(radian);
-		circle_point.emplace_back(SDL_Point{cx, cy});
+		circle_point.emplace_back(SDL_Point{cx, cy}); // c++11 constructor
 	}
 
 	for(const auto& point : circle_point) {
@@ -33,7 +36,7 @@ void eclipse(int ix, int iy, int r) {
 	}
 }
 
-int main(int argc, char ** argv) {
+int main() {
 	SDL_Init(SDL_INIT_EVERYTHING);	
 	window = SDL_CreateWindow("SDL", CENTER, CENTER, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, 0);
@@ -61,15 +64,15 @@ int main(int argc, char ** argv) {
 			int radius = 200 * (4 / (n * PI));
 			xs += radius * cos(n * angle);
 			ys += radius * sin(n * angle);
-			//eclipse(Ox + prevx,  Oy + prevy, radius);
+			eclipse(Ox + prevx,  Oy + prevy, radius);
 			SDL_RenderDrawLine(renderer, Ox + prevx, Oy + prevy, Ox + xs, Oy + ys);
-			//eclipse(Ox + xs, Oy + ys, 5);
+			eclipse(Ox + xs, Oy + ys, 5);
 		}
-		//points.emplace_back(ys);
-		//SDL_RenderDrawLine(renderer, Ox + xs, Oy + ys, Ox + 250, Oy + points[points.size() - 1]);
-		/*for(int i = 0; i < points.size(); i++) {
+		points.emplace_back(ys);
+		SDL_RenderDrawLine(renderer, Ox + xs, Oy + ys, Ox + 250, Oy + points[points.size() - 1]);
+		for(int i = 0; i < points.size(); i++) {
 			SDL_RenderDrawPoint(renderer, Ox + 250 + points.size() - i, Oy + points[i]);
-		}*/
+		}
 		
 		SDL_RenderPresent(renderer);
 		angle += 0.03;

@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
 #include <SDL2/SDL.h>
-// #include <SDL2/SDL2_gfxPrimitves.h> after sudo apt-get install libsdl2-gfx-dev
-// circleRGBA(renderer, ix, iy, r, re, gr, bl, al) instead of using 'eclipse' func at line 25
 using namespace std;
 
 #define PI     3.14
@@ -28,7 +26,7 @@ void eclipse(int ix, int iy, int r) {
 		// Trigonometric formula and translate
 		int cx = ix + r * cos(radian);
 		int cy = iy + r * sin(radian);
-		circle_point.emplace_back(SDL_Point{cx, cy}); // c++11 constructor
+		circle_point.emplace_back(SDL_Point{cx, cy});
 	}
 
 	for(const auto& point : circle_point) {
@@ -38,7 +36,7 @@ void eclipse(int ix, int iy, int r) {
 
 int main() {
 	SDL_Init(SDL_INIT_EVERYTHING);	
-	window = SDL_CreateWindow("SDL", CENTER, CENTER, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("SDL2", CENTER, CENTER, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, 0);
 	while (isrunning) {
 		while (SDL_PollEvent(&event)) {

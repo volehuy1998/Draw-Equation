@@ -3,8 +3,8 @@
 using namespace std;
 
 #define PI     3.14
-#define WIDTH  1000
-#define HEIGHT 600
+#define WIDTH  1300
+#define HEIGHT 700
 #define CENTER SDL_WINDOWPOS_CENTERED
 
 SDL_Window   * window   = NULL;
@@ -14,16 +14,15 @@ SDL_Event event;
 bool isrunning = true;
 double angle = 0.0f;
 vector<int> points;
-int Ox = WIDTH / 2, Oy = HEIGHT / 2; // translate axis
+int Ox = WIDTH / 2 - 200, Oy = HEIGHT / 2;
 
 void quit() {
 	isrunning = false;
 }
 
-void eclipse(int ix, int iy, int r) {
+void DrawCircle(int ix, int iy, int r) {
 	vector<SDL_Point> circle_point;
 	for (double radian = 0; radian < 2 * PI; radian += 0.01) {
-		// Trigonometric formula and translate
 		int cx = ix + r * cos(radian);
 		int cy = iy + r * sin(radian);
 		circle_point.emplace_back(SDL_Point{cx, cy});
@@ -62,14 +61,15 @@ int main() {
 			int radius = 200 * (4 / (n * PI));
 			xs += radius * cos(n * angle);
 			ys += radius * sin(n * angle);
-			eclipse(Ox + prevx,  Oy + prevy, radius);
+			DrawCircle(Ox + prevx,  Oy + prevy, radius);
 			SDL_RenderDrawLine(renderer, Ox + prevx, Oy + prevy, Ox + xs, Oy + ys);
-			eclipse(Ox + xs, Oy + ys, 5);
+			DrawCircle(Ox + xs, Oy + ys, 5);
 		}
 		points.emplace_back(ys);
-		SDL_RenderDrawLine(renderer, Ox + xs, Oy + ys, Ox + 250, Oy + points[points.size() - 1]);
+		SDL_RenderDrawLine(renderer, Ox + xs, Oy + ys, Ox + 450, Oy + points[points.size() - 1]);
 		for(int i = 0; i < points.size(); i++) {
-			SDL_RenderDrawPoint(renderer, Ox + 250 + points.size() - i, Oy + points[i]);
+			SDL_SetRenderDrawColor(renderer, 0x0, 0xff, 0x0, 0xff);
+			SDL_RenderDrawPoint(renderer, Ox + 450 + points.size() - i, Oy + points[i]);
 		}
 		
 		SDL_RenderPresent(renderer);
